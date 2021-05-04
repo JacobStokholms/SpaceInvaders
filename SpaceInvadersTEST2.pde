@@ -36,123 +36,120 @@ void draw() {
 
   background(0);
 
-//-----------CASES------------------
+  //-----------CASES-----------------
 
-switch(screen) {
+  switch(screen) {
   case "startScreen": 
     startScreen();
- 
+
     break;
   case "Game1": 
-  
-  timer();
-  bullets();
-  wallHit();
-  hitboxEnemies();
-  speedIncrease();
-  deadCount();
-  playerUpdate();
-  gameOver();
+
+    timer();
+    bullets();
+    wallHit();
+    hitboxEnemies();
+    speedIncrease();
+    deadCount();
+    playerUpdate();
+    gameOver();
     break;
-    
+
   case "EndScreen":
-  endScreen();
-  
+    endScreen();
+
     break;
-}}
+  }
+}
 
 
 //-----FUNKTIONS------------
 
 
-void startScreen(){
-  
+void startScreen() {
+
   textSize(50);
   textAlign(CENTER);
   fill(255);
-  text("Space",width/2,65); 
-  text("Invaders",width/2,120);
+  text("Space", width/2, 65); 
+  text("Invaders", width/2, 120);
   int l = 200;
   int b = 100;
   stroke(230);  
   strokeWeight(5);
   fill(255);
-  rect(width/2-l/2,height/3-b/2,l,b);
+  rect(width/2-l/2, height/3-b/2, l, b);
   fill(0);
   textSize(30);
   textAlign(CENTER);
-  text("Start",width/2,height/3+15); 
-  
-  boolean hit = circleRect(mouseX,mouseY,0,width/2-l/2,height/3-b/2,l,b); 
-  
-  if(hit){
-   stroke(180);  
-  fill(200);
-  rect(width/2-l/2,height/3-b/2,l,b);
-   fill(0);
-  textSize(30);
-  textAlign(CENTER);
-  text("Start",width/2,height/3+15); 
-    
+  text("Start", width/2, height/3+15); 
+
+  boolean hit = circleRect(mouseX, mouseY, 0, width/2-l/2, height/3-b/2, l, b); 
+
+  if (hit) {
+    stroke(180);  
+    fill(200);
+    rect(width/2-l/2, height/3-b/2, l, b);
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Start", width/2, height/3+15);
   }
-  
+
   strokeWeight(0);
- if (mousePressed){
-    
-   
+  if (mousePressed) {
+
+
     if (hit)
-    screen = "Game1";
+      screen = "Game1";
     mousePressed = false;
   }
-  
 }
 
 
 
-void endScreen(){
- 
+void endScreen() {
+
   textSize(50);
   textAlign(CENTER);
   fill(255);
-  text("GAME OVER",width/2,65); 
-  
+  text("GAME OVER", width/2, 65); 
+
   int l = 200;
   int b = 100;
   stroke(230);  
   strokeWeight(5);
   fill(255);
-  rect(width/2-l/2,height/5-b/2,l,b);
+  rect(width/2-l/2, height/5-b/2, l, b);
   fill(0);
   textSize(30);
   textAlign(CENTER);
-  text("Main menu",width/2,height/5+15); 
-  
-  boolean hit = circleRect(mouseX,mouseY,0,width/2-l/2,height/5-b/2,l,b); 
-  
-  if(hit){
-  stroke(180);  
-  fill(200);
-  rect(width/2-l/2,height/5-b/2,l,b);
-  fill(0);
-  textSize(30);
-  textAlign(CENTER);
-  text("Main menu",width/2,height/5+15); 
-  
-}
- if (mousePressed){
-    
-   
+  text("Main menu", width/2, height/5+15); 
+
+  boolean hit = circleRect(mouseX, mouseY, 0, width/2-l/2, height/5-b/2, l, b); 
+
+  if (hit) {
+    stroke(180);  
+    fill(200);
+    rect(width/2-l/2, height/5-b/2, l, b);
+    fill(0);
+    textSize(30);
+    textAlign(CENTER);
+    text("Main menu", width/2, height/5+15);
+  }
+  if (mousePressed) {
+
+
     if (hit)
-    screen = "startScreen";
+      screen = "startScreen";
     mousePressed = false;
   }
-
 }
 
 
 
 
- 
+
 // CIRCLE/RECTANGLE
 boolean circleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh) {
 
@@ -174,7 +171,7 @@ boolean circleRect(float cx, float cy, float radius, float rx, float ry, float r
   return false;
 }
 
-void timer(){
+void timer() {
 
   if (timer == false) {
 
@@ -190,7 +187,7 @@ void timer(){
   }
 }
 
-void bullets(){
+void bullets() {
 
   if (keyPressed && keyCode == UP && timer) {
     bullets.add(new Bullet(player.location.x+10, player.location.y));
@@ -215,7 +212,7 @@ void bullets(){
     part.draw();
   }
 }
-void wallHit(){
+void wallHit() {
 
   for (int i=0; i<Col; i++) {
     for (int j=0; j<Row; j++) {
@@ -244,7 +241,7 @@ void wallHit(){
     border = false;
   }
 }
-void hitboxEnemies(){
+void hitboxEnemies() {
 
   for (int k = bullets.size()-1; k >=0; k--) {
     Bullet part = bullets.get(k);
@@ -270,7 +267,7 @@ void hitboxEnemies(){
     }
   }
 }
-void speedIncrease(){
+void speedIncrease() {
 
   if (enemyDead) {
     for (int i=0; i<Col; i++) {
@@ -282,30 +279,28 @@ void speedIncrease(){
     enemyDead = false;
   }
 }
- void deadCount(){
-  
+void deadCount() {
+
 
   println(countDeadEnemies);
   enemiesLeft = Col*Row-countDeadEnemies;
-  
-   textSize(25);
-   text("Enemies left:" +enemiesLeft, 100, 25);
- 
- }
- 
 
- void playerUpdate(){
+  textSize(25);
+  text("Enemies left:" +enemiesLeft, 100, 25);
+}
+
+
+void playerUpdate() {
   player.controls();
   player.display();
 }
 
 
-void gameOver(){
- 
+void gameOver() {
+
   deadCount();
-  
-  if (enemiesLeft == 0){
+
+  if (enemiesLeft == 0) {
     screen = "EndScreen";
   }
-  
 }
