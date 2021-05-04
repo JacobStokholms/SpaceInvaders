@@ -84,7 +84,7 @@ void startScreen() {
   textAlign(CENTER);
   text("Start", width/2, height/3+15); 
 
-  boolean hit = circleRect(mouseX, mouseY, 0, width/2-l/2, height/3-b/2, l, b); 
+  boolean hit = dotRect(mouseX, mouseY, 0, width/2-l/2, height/3-b/2, l, b); 
 
   if (hit) {
     stroke(180);  
@@ -126,7 +126,7 @@ void endScreen() {
   textAlign(CENTER);
   text("Main menu", width/2, height/5+15); 
 
-  boolean hit = circleRect(mouseX, mouseY, 0, width/2-l/2, height/5-b/2, l, b); 
+  boolean hit = dotRect(mouseX, mouseY, 0, width/2-l/2, height/5-b/2, l, b); 
 
   if (hit) {
     stroke(180);  
@@ -249,7 +249,7 @@ void hitboxEnemies() {
       for (int j=0; j<Row; j++) {
 
 
-        boolean hit = circleRect(part.location.x, part.location.y, part.mass/2, enemy[i][j].location.x, enemy[i][j].location.y, enemySize, enemySize);
+        boolean hit = dotRect(part.location.x, part.location.y, part.mass/2, enemy[i][j].location.x, enemy[i][j].location.y, enemySize, enemySize);
 
         if (hit) {
 
