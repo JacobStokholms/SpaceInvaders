@@ -212,7 +212,7 @@ void timer() {
       tjek = false;
     }
 
-    if (millis()-oldtime > 100) {
+    if (millis()-oldtime > 500) {
       timer = !timer;
       tjek = true;
     }
@@ -350,5 +350,6 @@ void gameOver() {
     countDeadEnemies = 0;
     bullets.clear();
     screen = "EndScreen";
+    gameOver = false;
   }
 }
