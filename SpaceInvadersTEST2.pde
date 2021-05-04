@@ -156,7 +156,7 @@ boolean dotRect(float dx, float dy, float radius, float rx, float ry, float rw, 
   // Test variables
   float distX = 0, distY =0;
 
-  // Testen for closest edge
+  // Test for closest edge
   if (dx < rx)          distX = dx - rx;      // left 
   else if (dx > rx+rw) distX = dx - rx+rw;   // right 
   if (dy < ry)          distY = dy - ry;       // top 
