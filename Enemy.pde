@@ -1,7 +1,8 @@
 class Enemy {
 
   PVector location, direction;
-  float v = velocity;
+  int velocity = 1;
+  int v = velocity;
 
   Enemy(int x_, int y_) {
     location = new PVector(x_, y_);
@@ -12,7 +13,16 @@ class Enemy {
 
     direction = new PVector(v, 0);
     location.add(direction);
-}
+/*
+    if (location.x > width) {
+      location.y = location.y+10;
+      v = v*(-1);
+    }
+    if (location.x < 0) {
+      location.y = location.y+10;
+      v = v*(-1);
+    
+  }*/}
 
   void display() {
 
