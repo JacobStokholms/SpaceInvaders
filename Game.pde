@@ -38,8 +38,8 @@ void draw() {
   switch(screen) {
   case "startScreen": 
     startScreen();
-
     break;
+
   case "Game1": 
     spawnEnemies();
     timer();
@@ -52,12 +52,10 @@ void draw() {
     gameOver();
     score.drawScores(20, 255);
     score.checkIfNewHighScore();
-
     break;
 
   case "EndScreen":
     endScreen();
-
     break;
   }
 }
@@ -75,25 +73,12 @@ void startScreen() {
   text("Invaders", width/2, 120);
   int l = 200;
   int b = 100;
-  stroke(230);  
-  strokeWeight(5);
-  fill(255);
-  rect(width/2-l/2, height/3-b/2, l, b);
-  fill(0);
-  textSize(30);
-  textAlign(CENTER);
-  text("Start", width/2, height/3+15); 
+  box(width, height+200, 200, 100, 255, "Start");
 
-  boolean hit = dotRect(mouseX, mouseY, 0, width/2-l/2, height/3-b/2, l, b); 
+  boolean hit = dotRect(mouseX, mouseY, 0, width/2-l/2, (height+200)/5-b/2, l, b); 
 
   if (hit) {
-    stroke(180);  
-    fill(200);
-    rect(width/2-l/2, height/3-b/2, l, b);
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Start", width/2, height/3+15);
+    box(width, height+200, 200, 100, 220, "Start");
   }
 
   strokeWeight(0);
