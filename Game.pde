@@ -79,13 +79,9 @@ void startScreen() {
 
   if (hit) {
     box(width, height+200, 200, 100, 220, "Start");
-  }
-
-  strokeWeight(0);
-  if (mousePressed) {
 
 
-    if (hit) {
+    if (mousePressed) {
       reset = true;
       score.resetScore();
       screen = "Game1";
@@ -93,6 +89,7 @@ void startScreen() {
       mousePressed = false;
     }
   }
+  strokeWeight(0);
 }
 
 
