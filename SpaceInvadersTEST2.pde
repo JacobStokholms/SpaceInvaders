@@ -150,21 +150,21 @@ void endScreen() {
 
 
 
-// CIRCLE/RECTANGLE
-boolean circleRect(float cx, float cy, float radius, float rx, float ry, float rw, float rh) {
+// Hitbox for dot against rect
+boolean dotRect(float dx, float dy, float radius, float rx, float ry, float rw, float rh) {
 
-  // temporary variables to set edges for testing
+  // Test variables
   float distX = 0, distY =0;
 
-  // which edge is closest?
-  if (cx < rx)          distX = cx - rx;      // test left edge
-  else if (cx > rx+rw) distX = cx - rx+rw;   // right edge
-  if (cy < ry)          distY = cy - ry;       // top edge
-  else if (cy > ry+rh) distY = cy -  ry+rh;   // bottom edge
+  // Testen for closest edge
+  if (dx < rx)          distX = dx - rx;      // left 
+  else if (dx > rx+rw) distX = dx - rx+rw;   // right 
+  if (dy < ry)          distY = dy - ry;       // top 
+  else if (dy > ry+rh) distY = dy -  ry+rh;   // bottom 
 
   float distance = sqrt( (distX*distX) + (distY*distY) );
 
-  // if the distance is less than the radius, collision!
+  // Collision when radius is bigger than the distance.
   if (distance <= radius) {
     return true;
   }
