@@ -14,14 +14,31 @@ class Player {
 
     if (keyPressed && key == 'a'|| keyPressed && keyCode == LEFT) {
 
-      direction = new PVector(-v, 0);
-      location.add(direction);
+
+      if (location.x <= 0) {
+
+        direction = new PVector(0, 0);
+        location.add(direction);
+      } else {
+
+        direction = new PVector(-v, 0);
+        location.add(direction);
+      }
     }
 
     if (keyPressed && key == 'd'|| keyPressed && keyCode == RIGHT) {
 
-      direction = new PVector(v, 0);
-      location.add(direction);
+
+
+      if (location.x >= width-20) {
+
+        direction = new PVector(0, 0);
+        location.add(direction);
+      } else {
+
+        direction = new PVector(v, 0);
+        location.add(direction);
+      }
     }
   }
 
