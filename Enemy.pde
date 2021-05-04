@@ -12,7 +12,7 @@ class Enemy {
 
     direction = new PVector(v, 0);
     location.add(direction);
-}
+  }
 
   void display() {
 

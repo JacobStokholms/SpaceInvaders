@@ -1,11 +1,12 @@
 Player player;
+Score score;
 
 int Col = 6;
 int Row = 3;
 boolean hit2 = false;
 boolean enemyDead = false;
 
-boolean border = false, timer, tjek;
+boolean border = false, timer, tjek, reset, gameOver = false;
 int oldtime = millis();
 Enemy[][] enemy = new Enemy[Col][Row];
 ArrayList<Bullet> bullets = new ArrayList<Bullet>();
@@ -23,12 +24,8 @@ void setup() {
   background(0);
 
   player = new Player();
-
-  for (int i=0; i<Col; i++) {
-    for (int j=0; j<Row; j++) {
-      enemy[i][j] = new Enemy(width/Col*(i)+width/Col/2-enemySize/2, enemySize+ (enemySize+25)*(j));
-    }
-  }
+  score = new Score();
+  reset = true;
 }
 
 
@@ -44,7 +41,7 @@ void draw() {
 
     break;
   case "Game1": 
-
+    spawnEnemies();
     timer();
     bullets();
     wallHit();
@@ -53,6 +50,9 @@ void draw() {
     deadCount();
     playerUpdate();
     gameOver();
+    score.drawScores(20, 255);
+    score.checkIfNewHighScore();
+
     break;
 
   case "EndScreen":
@@ -100,9 +100,13 @@ void startScreen() {
   if (mousePressed) {
 
 
-    if (hit)
+    if (hit) {
+      reset = true;
+      score.resetScore();
       screen = "Game1";
-    mousePressed = false;
+
+      mousePressed = false;
+    }
   }
 }
 
@@ -113,39 +117,67 @@ void endScreen() {
   textSize(50);
   textAlign(CENTER);
   fill(255);
-  text("GAME OVER", width/2, 65); 
+  text("GAME OVER", width/2, 70); 
 
-  int l = 200;
   int b = 100;
-  stroke(230);  
-  strokeWeight(5);
-  fill(255);
-  rect(width/2-l/2, height/5-b/2, l, b);
+  int l = 200;
+
+  box(width, height, 200, 100, 255, "Spil igen");
+
+  boolean hitAgain = dotRect(mouseX, mouseY, 0, width/2-l/2, height/5-b/2, l, b); 
+
+  if (hitAgain) {
+    box(width, height, 200, 100, 220, "Spil igen");
+
+    if (mousePressed) {
+      reset = true;
+      score.resetScore();
+      screen = "Game1";
+      mousePressed = false;
+    }
+  }
+
+  box(width, height+550, 200, 100, 255, "Hovedmenu");
+
+  boolean hitMenu = dotRect(mouseX, mouseY, 0, width/2-l/2, (height+550)/5-b/2, l, b); 
+
+  if (hitMenu) {
+    box(width, height+550, 200, 100, 220, "Hovedmenu");
+
+    if (mousePressed) {
+      screen = "startScreen";
+      mousePressed = false;
+    }
+  }
+
+  score.drawScores(20, 255);
+}
+
+
+
+void box(int w, int h, int l, int b, int c, String text) {
+  fill(c);
+  rect(w/2-l/2, h/5-b/2, l, b);
   fill(0);
   textSize(30);
   textAlign(CENTER);
-  text("Main menu", width/2, height/5+15); 
-
-  boolean hit = dotRect(mouseX, mouseY, 0, width/2-l/2, height/5-b/2, l, b); 
-
-  if (hit) {
-    stroke(180);  
-    fill(200);
-    rect(width/2-l/2, height/5-b/2, l, b);
-    fill(0);
-    textSize(30);
-    textAlign(CENTER);
-    text("Main menu", width/2, height/5+15);
-  }
-  if (mousePressed) {
-
-
-    if (hit)
-      screen = "startScreen";
-    mousePressed = false;
-  }
+  text(text, w/2, h/5+15);
 }
 
+
+
+void spawnEnemies() {
+
+  if (reset) {
+
+    for (int i=0; i<Col; i++) {
+      for (int j=0; j<Row; j++) {
+        enemy[i][j] = new Enemy(width/Col*(i)+width/Col/2-enemySize/2, enemySize+ (enemySize+25)*(j)+15);
+      }
+    }
+  }
+  reset = false;
+}
 
 
 
@@ -219,12 +251,16 @@ void wallHit() {
       enemy[i][j].movement();
       enemy[i][j].display();
 
-      if (enemy[i][j].location.x+enemySize > width && enemy[i][j].location.y < height) {
+      if (enemy[i][j].location.x+enemySize > width && enemy[i][j].location.y > 0) {
         border = true;
       }
 
-      if (enemy[i][j].location.x < 0&& enemy[i][j].location.y < height) {
+      if (enemy[i][j].location.x < 0 && enemy[i][j].location.y > 0) {
         border = true;
+      }
+
+      if (enemy[i][j].location.y >= height-enemySize) {
+        gameOver = true;
       }
     }
   }
@@ -253,9 +289,10 @@ void hitboxEnemies() {
 
         if (hit) {
 
-          enemy[i][j] = new Enemy(width/2, height+15);
+          enemy[i][j] = new Enemy(width/2, -2000);
           hit2 = true;
           countDeadEnemies++;
+          score.increaseScore();
           enemyDead = true;
         }
       }
@@ -285,7 +322,7 @@ void deadCount() {
   println(countDeadEnemies);
   enemiesLeft = Col*Row-countDeadEnemies;
 
-  textSize(25);
+  textSize(20);
   text("Enemies left:" +enemiesLeft, 100, 25);
 }
 
@@ -301,6 +338,17 @@ void gameOver() {
   deadCount();
 
   if (enemiesLeft == 0) {
+    enemiesLeft = enemySize;
+    countDeadEnemies = 0;
+    bullets.clear();
+    reset = true;
+    screen = "Game1";
+  }
+
+  if (gameOver) {
+    enemiesLeft = enemySize;
+    countDeadEnemies = 0;
+    bullets.clear();
     screen = "EndScreen";
   }
 }
